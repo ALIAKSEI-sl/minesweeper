@@ -1,0 +1,5 @@
+{
+  "root": true,
+  "ignorePatterns": ["dist/**/*"],
+  "extends": ["eslint-config-airbnb-base"]
+}

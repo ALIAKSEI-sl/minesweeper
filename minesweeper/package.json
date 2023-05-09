@@ -5,13 +5,17 @@
   "private": true,
   "scripts": {
     "build": "webpack",
-    "start": "webpack serve --open"
+    "start": "webpack serve --open",
+    "eslint": "eslint ./src"
   },
   "keywords": [],
   "author": "ALIAKSEI-sl",
   "license": "ISC",
   "devDependencies": {
     "css-loader": "^6.7.3",
+    "eslint": "^8.40.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.27.5",
     "html-webpack-plugin": "^5.5.1",
     "sass": "^1.62.1",
     "sass-loader": "^13.2.2",
