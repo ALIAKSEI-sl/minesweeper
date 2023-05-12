@@ -1,5 +1,11 @@
 {
   "root": true,
+  "env": {
+    "browser": true
+  },
   "ignorePatterns": ["dist/**/*"],
-  "extends": ["eslint-config-airbnb-base"]
+  "extends": ["eslint-config-airbnb-base"],
+  "rules": {
+    "no-param-reassign": "off"
+  }
 }
