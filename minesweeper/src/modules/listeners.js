@@ -1,7 +1,27 @@
-import { blockLevelSelection, blockChangeTheme } from './createMarkup';
+import {
+  blockLevelSelection,
+  blockChangeTheme,
+  blockControls,
+  blockBoard,
+} from './createMarkup';
+import { createGameBoard } from './helpers';
+import { settings } from './const';
+
+const startBtn = blockControls.querySelector('.start-game');
+
+startBtn.addEventListener('click', () => {
+  createGameBoard(settings.count, blockBoard);
+});
 
 blockLevelSelection.addEventListener('change', (event) => {
-  console.log(event.target.value);
+  const level = event.target.value;
+  if (level === 'easy') {
+    settings.count = 10;
+  } else if (level === 'medium') {
+    settings.count = 13;
+  } else if (level === 'hard') {
+    settings.count = 16;
+  }
 });
 
 const switchTheme = blockChangeTheme.querySelector('#change-theme');

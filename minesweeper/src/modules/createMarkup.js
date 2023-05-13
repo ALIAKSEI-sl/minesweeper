@@ -1,7 +1,8 @@
 import { createElement, createElementFromString } from './helpers';
-import rulesGame from './const';
 import changeTheme from '../components/changeTheme';
 import levelSelection from '../components/levelSelection';
+import controls from '../components/controls';
+import { rulesGame, settings } from './const';
 
 const header = createElement('header', 'header', document.body);
 const wrapperHeader = createElement('div', 'header-wrapper', header);
@@ -20,21 +21,20 @@ export const blockChangeTheme = createElementFromString(
   wrapperHeader,
 );
 
-const blockRules = createElement('div', 'block-rules', wrapperMain);
+const blockRules = createElement('section', 'block-rules', wrapperMain);
 const rulesHeader = createElement('h2', 'rules-header', blockRules);
 rulesHeader.textContent = 'Game rules';
 const rulesText = createElement('p', 'rules-text', blockRules);
 rulesText.textContent = rulesGame;
 
+export const blockGame = createElement('section', 'block-game', wrapperMain);
+export const blockControls = createElementFromString(controls, blockGame);
+export const blockBoard = createElement('div', 'block-board', blockGame);
+// createGameBoard(settings.count, blockBoard);
+
 // const spanCounter = document.createElement('span');
 // spanCounter.textContent = '000';
 // document.body.append(spanCounter);
-
-// export function createElement(tagName, className) {
-//   const elem = document.createElement(tagName);
-//   elem.classList.add(className);
-//   return elem;
-// }
 
 // export function timeCounter(element) {
 //   let seconds = 0;
@@ -55,11 +55,3 @@ rulesText.textContent = rulesGame;
 
 // button.addEventListener('click', () => {});
 // const clean = setInterval(timer, 1000);
-
-// setTimeout(() => {
-//   clearTimeout(clean);
-// }, 5000);
-
-// setTimeout(() => {
-//   setInterval(timer, 1000);
-// }, 10000);

@@ -6,6 +6,7 @@
   "ignorePatterns": ["dist/**/*"],
   "extends": ["eslint-config-airbnb-base"],
   "rules": {
-    "no-param-reassign": "off"
+    "no-param-reassign": "off",
+    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }]
   }
 }
