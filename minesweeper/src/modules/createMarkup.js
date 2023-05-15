@@ -7,6 +7,7 @@ import changeTheme from '../components/changeTheme';
 import levelSelection from '../components/levelSelection';
 import controls from '../components/controls';
 import popup from '../components/popUpEnd';
+import getResultsTable from '../components/resultsTable';
 import { rulesGame, settings } from './const';
 
 const header = createElement('header', 'header', document.body);
@@ -38,3 +39,9 @@ export const blockBoard = createElement('div', 'block-board', blockGame);
 createGameBoard(settings.count, blockBoard);
 
 export const blockPopup = createElementFromString(popup, document.body);
+
+const blockResult = createElement('section', 'block-result', wrapperMain);
+export const blockTable = createElementFromString(
+  getResultsTable(),
+  blockResult,
+);
