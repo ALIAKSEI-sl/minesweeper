@@ -1,12 +1,19 @@
 import { settings } from './const';
 import { blockPopup, blockBoard, blockTable, blockGame } from './createMarkup';
 import { createGameBoard } from './helpers';
+import audioClick from '../assets/click.mp3';
+import audioFail from '../assets/fail.mp3';
+import audioWin from '../assets/win.mp3';
 
 let board;
 const results = [];
 const resultsTime = blockTable.querySelectorAll('.results-time');
 const resultsClick = blockTable.querySelectorAll('.results-click');
 const resultsStatus = blockTable.querySelectorAll('.results-status');
+
+const clickSound = new Audio(audioClick);
+const failSound = new Audio(audioFail);
+const winSound = new Audio(audioWin);
 
 function countBombsAround(row, col) {
   let count = 0;
@@ -67,6 +74,11 @@ export function placeMines(rowCell, columnCell) {
 function endGame(elem, clear, message) {
   clearInterval(clear);
 
+  if (message === 'Game over') {
+    failSound.play();
+  } else {
+    winSound.play();
+  }
   const popupHeader = blockPopup.querySelector('.popup-header');
   const secondsResults = blockPopup.querySelector('.seconds-results');
   const clicksResults = blockPopup.querySelector('.clicks-results');
@@ -191,6 +203,7 @@ function openEmptyCell(row, col) {
 }
 
 export function openCell(cell, rowCell, columnCell, clear) {
+  clickSound.play();
   if (board[rowCell][columnCell].bomb) {
     endGame(blockPopup, clear, 'Game over');
   } else {

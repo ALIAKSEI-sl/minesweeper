@@ -30,6 +30,17 @@ module.exports = {
         test: /\.s[ac]ss$/i,
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
+      {
+        test: /\.(mp3|wav)$/,
+        use: {
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            // outputPath: 'assets',
+            // publicPath: '/',
+          },
+        },
+      },
     ],
   },
 };
