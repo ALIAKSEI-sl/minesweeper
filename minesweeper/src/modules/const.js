@@ -2,4 +2,8 @@ export const rulesGame = 'In the game, mines are scattered throughout a board, w
 
 export const settings = {
   count: 10,
+  bomb: 10,
+  time: 0,
+  click: 0,
+  flag: 0,
 };

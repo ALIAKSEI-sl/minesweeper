@@ -32,3 +32,36 @@ export function createGameBoard(size, root) {
     }
   }
 }
+
+export function tagCell(cell, settings, elem) {
+  if (!cell.classList.contains('open')) {
+    cell.classList.toggle('flag');
+    if (cell.classList.contains('flag')) {
+      settings.flag += 1;
+    } else {
+      settings.flag -= 1;
+    }
+    elem.textContent = settings.flag;
+  }
+}
+
+export function resetSettings(
+  settings,
+  counterTime,
+  counterClick,
+  counterClicks,
+) {
+  settings.time = 0;
+  settings.click = 0;
+  settings.click = 0;
+
+  counterTime.textContent = 0;
+  counterClick.textContent = 0;
+  counterClicks.textContent = 0;
+}
+
+export function startTimer(count, elem) {
+  count += 1;
+  console.log(count);
+  elem.textContent = count;
+}

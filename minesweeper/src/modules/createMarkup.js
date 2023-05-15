@@ -1,7 +1,12 @@
-import { createElement, createElementFromString } from './helpers';
+import {
+  createElement,
+  createElementFromString,
+  createGameBoard,
+} from './helpers';
 import changeTheme from '../components/changeTheme';
 import levelSelection from '../components/levelSelection';
 import controls from '../components/controls';
+import popup from '../components/popUpEnd';
 import { rulesGame, settings } from './const';
 
 const header = createElement('header', 'header', document.body);
@@ -30,28 +35,6 @@ rulesText.textContent = rulesGame;
 export const blockGame = createElement('section', 'block-game', wrapperMain);
 export const blockControls = createElementFromString(controls, blockGame);
 export const blockBoard = createElement('div', 'block-board', blockGame);
-// createGameBoard(settings.count, blockBoard);
+createGameBoard(settings.count, blockBoard);
 
-// const spanCounter = document.createElement('span');
-// spanCounter.textContent = '000';
-// document.body.append(spanCounter);
-
-// export function timeCounter(element) {
-//   let seconds = 0;
-//   return () => {
-//     seconds += 1;
-//     const minutes = Math.floor(seconds / 60);
-//     const remainsSeconds = seconds % 60;
-//     const html = `${minutes} : ${remainsSeconds}`;
-//     element.textContent = html;
-//   };
-// }
-
-// const elem = document.createElement('span');
-// const button = document.createElement('button');
-// document.body.append(elem);
-// document.body.append(button);
-// const timer = timeCounter(elem);
-
-// button.addEventListener('click', () => {});
-// const clean = setInterval(timer, 1000);
+export const blockPopup = createElementFromString(popup, document.body);
