@@ -114,16 +114,21 @@ function openEmptyCell(row, col) {
       newRow < board.length &&
       newCol >= 0 &&
       newCol < board[newRow].length &&
-      board[newRow][newCol].bombsAround === 0 &&
       !board[newRow][newCol].opened
     ) {
       const cell = blockBoard.querySelector(
         `[data-row="${newRow}"][data-col="${newCol}"`,
       );
-      cell.textContent = board[newRow][newCol].bombsAround;
-      board[newRow][newCol].opened = true;
-      cell.classList.add('open');
-      neighbors.push([newRow, newCol]);
+      if (board[newRow][newCol].bombsAround === 0) {
+        cell.textContent = board[newRow][newCol].bombsAround;
+        board[newRow][newCol].opened = true;
+        cell.classList.add('open');
+        neighbors.push([newRow, newCol]);
+      } else {
+        cell.textContent = board[newRow][newCol].bombsAround;
+        board[newRow][newCol].opened = true;
+        cell.classList.add('open');
+      }
     }
   }
   if (neighbors.length !== 0) {

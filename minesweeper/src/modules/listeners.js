@@ -19,6 +19,7 @@ const counterClicks = blockControls.querySelector('.counter-tag');
 const tryAgainBtn = blockPopup.querySelector('.tryAgain-btn');
 
 startBtn.addEventListener('click', () => {
+  clearInterval(clear);
   createGameBoard(settings.count, blockBoard);
   resetSettings(settings, counterTime, counterClick, counterClicks);
 });
