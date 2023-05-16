@@ -1,16 +1,16 @@
 export default function getResultsTable() {
   let body = `
   <tr>
-    <td class='cell-results'></td>
-    <td class='cell-results'>times</td>
-    <td class='cell-results'>clicks</td>
-    <td class='cell-results'>status</td>
+    <td></td>
+    <td class='cell-results cell-header'>times</td>
+    <td class='cell-results cell-header'>clicks</td>
+    <td class='cell-results cell-header'>status</td>
   </tr>
 `;
   for (let i = 0; i < 10; i++) {
     const chunk = `
       <tr>
-        <td class='cell-results'>${i + 1}</td>
+        <td class='cell-number'>${i + 1}</td>
         <td class='cell-results results-time'></td>
         <td class='cell-results results-click'></td>
         <td class='cell-results results-status'></td>

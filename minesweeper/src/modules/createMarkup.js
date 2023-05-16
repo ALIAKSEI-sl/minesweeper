@@ -34,13 +34,17 @@ const rulesText = createElement('p', 'rules-text', blockRules);
 rulesText.textContent = rulesGame;
 
 export const blockGame = createElement('section', 'block-game', wrapperMain);
-export const blockControls = createElementFromString(controls, blockGame);
 export const blockBoard = createElement('div', 'block-board', blockGame);
+export const blockControls = createElementFromString(controls, blockGame);
+const blockTag = blockControls.querySelector('.block-tag');
+blockTag.title = 'To set the marker, right-click on the playing field';
 createGameBoard(settings.count, blockBoard);
 
 export const blockPopup = createElementFromString(popup, document.body);
 
 const blockResult = createElement('section', 'block-result', wrapperMain);
+const resultTitle = createElement('h2', 'result-title', blockResult);
+resultTitle.textContent = 'High score table';
 export const blockTable = createElementFromString(
   getResultsTable(),
   blockResult,

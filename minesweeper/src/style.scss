@@ -1,5 +1,5 @@
 $colorLight: var(--colorLight, white);
-$colorDark: var(--colorDark, rgb(94, 91, 91));
+$colorDark: var(--colorDark, rgb(150, 150, 150));
 
 * {
   box-sizing: border-box;
@@ -8,6 +8,7 @@ $colorDark: var(--colorDark, rgb(94, 91, 91));
 
 body {
   background-color: $colorLight;
+  user-select: none;
 }
 
 .header {
@@ -28,6 +29,7 @@ body {
   max-width: 1280px;
   margin: 0 auto;
   display: flex;
+  padding: 40px 20px 0 20px;
 }
 
 .header-title {
@@ -98,8 +100,6 @@ body {
 }
 
 .block-rules {
-  width: 20%;
-  padding-top: 20px;
   text-align: justify;
   color: $colorDark;
 }
@@ -110,18 +110,24 @@ body {
 }
 
 .rules-text {
+  max-width: 300px;
   text-indent: 20px;
   font-size: 17px;
 }
 
 .block-game {
   width: 60%;
-  padding: 20px 30px 0 30px;
+  padding: 0 40px;
+  display: flex;
+  justify-content: space-around;
 }
 
 .block-controls {
+  height: fit-content;
   display: flex;
-  justify-content: space-around;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
 }
 
 .start-game {
@@ -158,6 +164,8 @@ body {
 .counter-tag {
   color: $colorDark;
   font-size: 18px;
+  width: 30px;
+  text-align: center;
 }
 
 #tag,
@@ -168,7 +176,6 @@ body {
 
 .block-board {
   width: fit-content;
-  margin: 30px auto 0 auto;
 }
 
 .row {
@@ -181,6 +188,9 @@ body {
   height: 30px;
   border: 1px solid $colorDark;
   cursor: pointer;
+  text-align: center;
+  font-size: 24px;
+  line-height: 30px;
 }
 
 .cell.flag {
@@ -190,7 +200,7 @@ body {
 }
 
 .cell.open {
-  background-color: aqua;
+  background-color: rgb(200, 200, 200);
   cursor: auto;
 }
 
@@ -250,19 +260,148 @@ body {
   cursor: pointer;
 }
 
-.block-result {
-  width: 20%;
-  padding-top: 50px;
+.tryAgain-btn:hover {
+  background-color: rgb(200, 200, 200);
 }
 
 .table-results {
+  border-collapse: collapse;
   border-spacing: 0;
   margin: 0 auto;
 }
 
-.cell-results {
-  width: 50px;
-  height: 20px;
-  border: 1px solid black;
+.result-title {
   text-align: center;
+  color: $colorDark;
+  padding-bottom: 10px;
+}
+
+.cell-header,
+.cell-number {
+  background-color: rgb(200, 200, 200);
+}
+
+.cell-results {
+  width: 54px;
+  height: 25px;
+  font-size: 18px;
+  border: 1px solid $colorDark;
+  text-align: center;
+  color: $colorDark;
+}
+
+.cell-number {
+  width: 30px;
+  font-size: 18px;
+  text-align: center;
+  color: $colorDark;
+  border: 1px solid $colorDark;
+}
+
+@media (min-width: 768px) and (max-width: 1279px) {
+  .wrapper-main {
+    flex-wrap: wrap;
+    justify-content: space-around;
+    row-gap: 30px;
+  }
+
+  .block-rules {
+    order: 3;
+    padding-bottom: 30px;
+  }
+
+  .block-game {
+    width: fit-content;
+    order: 1;
+    column-gap: 40px;
+  }
+
+  .block-result {
+    order: 2;
+  }
+
+  .rules-text {
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 560px) and (max-width: 767px) {
+  .header-wrapper {
+    flex-direction: column;
+    row-gap: 20px;
+  }
+
+  .header-title {
+    font-size: 34px;
+  }
+
+  .wrapper-main {
+    flex-wrap: wrap;
+    justify-content: space-around;
+    row-gap: 30px;
+  }
+
+  .block-rules {
+    order: 3;
+    padding-bottom: 30px;
+  }
+
+  .block-game {
+    width: fit-content;
+    order: 1;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .block-result {
+    order: 2;
+  }
+
+  .rules-text {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 559px) {
+  .header-wrapper {
+    flex-direction: column;
+    row-gap: 20px;
+  }
+
+  .header-title {
+    font-size: 34px;
+  }
+
+  .wrapper-main {
+    flex-wrap: wrap;
+    justify-content: space-around;
+    row-gap: 30px;
+  }
+
+  .block-rules {
+    order: 3;
+    padding-bottom: 30px;
+  }
+
+  .block-game {
+    width: fit-content;
+    order: 1;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .block-result {
+    order: 2;
+  }
+
+  .rules-text {
+    max-width: 100%;
+  }
+
+  .cell {
+    width: 15px;
+    height: 15px;
+    font-size: 12px;
+    line-height: 15px;
+  }
 }

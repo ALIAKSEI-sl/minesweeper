@@ -169,7 +169,9 @@ function openEmptyCell(row, col) {
         `[data-row="${newRow}"][data-col="${newCol}"`,
       );
       if (board[newRow][newCol].bombsAround === 0) {
-        cell.textContent = board[newRow][newCol].bombsAround;
+        if (board[newRow][newCol].bombsAround !== 0) {
+          cell.textContent = board[newRow][newCol].bombsAround;
+        }
         board[newRow][newCol].opened = true;
         if (cell.classList.contains('flag')) {
           const counterTag = blockGame.querySelector('.counter-tag');
@@ -181,7 +183,9 @@ function openEmptyCell(row, col) {
         cell.classList.add('open');
         neighbors.push([newRow, newCol]);
       } else {
-        cell.textContent = board[newRow][newCol].bombsAround;
+        if (board[newRow][newCol].bombsAround !== 0) {
+          cell.textContent = board[newRow][newCol].bombsAround;
+        }
         changeColor(cell);
         board[newRow][newCol].opened = true;
         if (cell.classList.contains('flag')) {
@@ -209,7 +213,9 @@ export function openCell(cell, rowCell, columnCell, clear) {
   } else {
     cell.classList.add('open');
     board[rowCell][columnCell].opened = true;
-    cell.textContent = board[rowCell][columnCell].bombsAround;
+    if (board[rowCell][columnCell].bombsAround !== 0) {
+      cell.textContent = board[rowCell][columnCell].bombsAround;
+    }
     changeColor(cell);
     if (board[rowCell][columnCell].bombsAround === 0) {
       openEmptyCell(rowCell, columnCell);
@@ -240,6 +246,7 @@ export function savedGame() {
   const gameMinesweeper = JSON.stringify({
     settings,
     board,
+    results,
   });
   localStorage.setItem('gameMinesweeper', gameMinesweeper);
 }
@@ -251,9 +258,9 @@ export function recoveryParams(params, elem) {
   elem.counterTag.textContent = params.settings.flag;
   if (params.bomb === 10) {
     elem.blockLevelSelection.value = 'easy';
-  } else if (params.bomb === 17) {
+  } else if (params.bomb === 25) {
     elem.blockLevelSelection.value = 'medium';
-  } else if (params.bomb === 26) {
+  } else if (params.bomb === 51) {
     elem.blockLevelSelection.value = 'hard';
   }
   createGameBoard(settings.count, blockBoard);
@@ -265,7 +272,9 @@ export function recoveryParams(params, elem) {
           `[data-row="${i}"][data-col="${j}"`,
         );
         currentCell.classList.add('open');
-        currentCell.textContent = board[i][j].bombsAround;
+        if (board[i][j].bombsAround !== 0) {
+          currentCell.textContent = board[i][j].bombsAround;
+        }
         changeColor(currentCell);
       }
       if (cell.flag) {
@@ -275,5 +284,11 @@ export function recoveryParams(params, elem) {
         currentCell.classList.add('flag');
       }
     });
+  });
+  params.results.forEach((res, index) => {
+    results.push(res);
+    resultsTime[index].textContent = res.time;
+    resultsClick[index].textContent = res.click;
+    resultsStatus[index].textContent = res.status;
   });
 }

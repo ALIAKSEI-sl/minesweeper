@@ -39,10 +39,10 @@ blockLevelSelection.addEventListener('change', (event) => {
     settings.bomb = 10;
   } else if (level === 'medium') {
     settings.count = 13;
-    settings.bomb = 17;
+    settings.bomb = 25;
   } else if (level === 'hard') {
     settings.count = 16;
-    settings.bomb = 26;
+    settings.bomb = 51;
   }
   clearInterval(clear);
   createGameBoard(settings.count, blockBoard);
