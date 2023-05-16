@@ -1,6 +1,12 @@
 import { settings } from './const';
-import { blockPopup, blockBoard, blockTable, blockGame } from './createMarkup';
-import { createGameBoard } from './helpers';
+import {
+  blockPopup,
+  blockBoard,
+  blockTable,
+  blockGame,
+  wrapperMain,
+} from './createMarkup';
+import { createGameBoard, changeCountMines } from './helpers';
 import audioClick from '../assets/click.mp3';
 import audioFail from '../assets/fail.mp3';
 import audioWin from '../assets/win.mp3';
@@ -61,7 +67,6 @@ export function placeMines(rowCell, columnCell) {
       minesPlaced += 1;
     }
   }
-
   for (let i = 0; i < settings.count; i++) {
     for (let j = 0; j < settings.count; j++) {
       if (!board[i][j].bomb) {
@@ -108,19 +113,22 @@ function checkGameStatus(clear) {
   }
 }
 
-export function tagCell(cell, set, elem) {
-  if (!cell.classList.contains('open')) {
+export function tagCell(cell, set, tagElem, mineElem) {
+  const currentFlag = +tagElem.textContent;
+  if (!cell.classList.contains('open') && currentFlag < set.bomb) {
     const rowCell = Number(cell.dataset.row);
     const colCell = Number(cell.dataset.col);
     cell.classList.toggle('flag');
     if (cell.classList.contains('flag')) {
       set.flag += 1;
+      mineElem.textContent = set.bomb - set.flag;
       board[rowCell][colCell].flag = true;
     } else {
       set.flag -= 1;
+      mineElem.textContent = set.bomb - set.flag;
       board[rowCell][colCell].flag = false;
     }
-    elem.textContent = set.flag;
+    tagElem.textContent = set.flag;
   }
 }
 
@@ -140,7 +148,7 @@ function changeColor(elem) {
   }
 }
 
-function openEmptyCell(row, col) {
+function openEmptyCell(row, col, counterMine) {
   const offsets = [
     [-1, 0],
     [1, 0],
@@ -197,16 +205,17 @@ function openEmptyCell(row, col) {
         }
         cell.classList.add('open');
       }
+      counterMine.textContent = settings.bomb - settings.flag;
     }
   }
   if (neighbors.length !== 0) {
     neighbors.forEach(([r, c]) => {
-      openEmptyCell(r, c);
+      openEmptyCell(r, c, counterMine);
     });
   }
 }
 
-export function openCell(cell, rowCell, columnCell, clear) {
+export function openCell(cell, rowCell, columnCell, counterMine, clear) {
   clickSound.play();
   if (board[rowCell][columnCell].bomb) {
     endGame(blockPopup, clear, 'Game over');
@@ -218,7 +227,7 @@ export function openCell(cell, rowCell, columnCell, clear) {
     }
     changeColor(cell);
     if (board[rowCell][columnCell].bombsAround === 0) {
-      openEmptyCell(rowCell, columnCell);
+      openEmptyCell(rowCell, columnCell, counterMine);
     }
   }
   checkGameStatus(clear);
@@ -242,13 +251,20 @@ export function addResultToTable() {
   });
 }
 
-export function savedGame() {
+export function savedGame(levelSelection, minesSelection) {
   const gameMinesweeper = JSON.stringify({
     settings,
     board,
-    results,
+    selectLevel: levelSelection.value,
+    selectMines: minesSelection.value,
   });
   localStorage.setItem('gameMinesweeper', gameMinesweeper);
+}
+
+export function savedResults() {
+  if (results.length !== 0) {
+    localStorage.setItem('minesweeperResult', JSON.stringify(results));
+  }
 }
 
 export function recoveryParams(params, elem) {
@@ -256,13 +272,17 @@ export function recoveryParams(params, elem) {
   elem.counterTime.textContent = params.settings.time;
   elem.counterClick.textContent = params.settings.click;
   elem.counterTag.textContent = params.settings.flag;
-  if (params.bomb === 10) {
-    elem.blockLevelSelection.value = 'easy';
-  } else if (params.bomb === 25) {
-    elem.blockLevelSelection.value = 'medium';
-  } else if (params.bomb === 51) {
-    elem.blockLevelSelection.value = 'hard';
+  console.log(settings.bomb);
+  elem.counterMine.textContent = settings.bomb - settings.flag;
+
+  elem.blockLevelSelection.value = params.selectLevel;
+  changeCountMines(params.selectLevel, elem.blockMinesSelection, settings);
+  elem.blockMinesSelection.value = params.selectMines;
+
+  if (params.selectLevel === 'hard') {
+    wrapperMain.classList.add('hard');
   }
+
   createGameBoard(settings.count, blockBoard);
   board = params.board;
   board.forEach((row, i) => {
@@ -285,7 +305,10 @@ export function recoveryParams(params, elem) {
       }
     });
   });
-  params.results.forEach((res, index) => {
+}
+
+export function recoveryResults(saveResults) {
+  JSON.parse(saveResults).forEach((res, index) => {
     results.push(res);
     resultsTime[index].textContent = res.time;
     resultsClick[index].textContent = res.click;

@@ -8,15 +8,22 @@ import levelSelection from '../components/levelSelection';
 import controls from '../components/controls';
 import popup from '../components/popUpEnd';
 import getResultsTable from '../components/resultsTable';
+import selectMines from '../components/selectMines';
 import { rulesGame, settings } from './const';
 
 const header = createElement('header', 'header', document.body);
 const wrapperHeader = createElement('div', 'header-wrapper', header);
-const wrapperMain = createElement('main', 'wrapper-main', document.body);
+export const wrapperMain = createElement('main', 'wrapper-main', document.body);
 
+const selectLevel = createElement('div', 'select-level', wrapperHeader);
 export const blockLevelSelection = createElementFromString(
   levelSelection,
-  wrapperHeader,
+  selectLevel,
+);
+
+export const blockMinesSelection = createElementFromString(
+  selectMines,
+  selectLevel,
 );
 
 const headerName = createElement('h1', 'header-title', wrapperHeader);
@@ -27,7 +34,7 @@ export const blockChangeTheme = createElementFromString(
   wrapperHeader,
 );
 
-const blockRules = createElement('section', 'block-rules', wrapperMain);
+export const blockRules = createElement('section', 'block-rules', wrapperMain);
 const rulesHeader = createElement('h2', 'rules-header', blockRules);
 rulesHeader.textContent = 'Game rules';
 const rulesText = createElement('p', 'rules-text', blockRules);

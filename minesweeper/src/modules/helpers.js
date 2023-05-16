@@ -33,7 +33,13 @@ export function createGameBoard(size, root) {
   }
 }
 
-export function resetSettings(settings, counterTime, counterClick, counterTag) {
+export function resetSettings(
+  settings,
+  counterTime,
+  counterClick,
+  counterTag,
+  counterMine,
+) {
   settings.time = 0;
   settings.click = 0;
   settings.flag = 0;
@@ -41,9 +47,28 @@ export function resetSettings(settings, counterTime, counterClick, counterTag) {
   counterTime.textContent = 0;
   counterClick.textContent = 0;
   counterTag.textContent = 0;
+  counterMine.textContent = settings.bomb;
 }
 
 export function startTimer(settings, elem) {
   settings.time += 1;
   elem.textContent = settings.time.toString().padStart(3, '0');
+}
+
+export function changeCountMines(message, select, settings) {
+  const options = Array.from(select.children);
+  let value;
+
+  if (message === 'easy') {
+    value = [10, 20, 30, 40];
+  } else if (message === 'medium') {
+    value = [40, 50, 60, 70];
+  } else if (message === 'hard') {
+    value = [70, 80, 90, 100];
+  }
+  options.forEach((option, index) => {
+    option.value = value[index];
+    option.textContent = `${value[index]}💣`;
+  });
+  settings.bomb = select.value;
 }
