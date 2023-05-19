@@ -1,4 +1,4 @@
-$colorLight: var(--colorLight, white);
+$colorLight: var(--colorLight, rgb(242, 245, 238));
 $colorDark: var(--colorDark, rgb(150, 150, 150));
 
 * {
@@ -35,6 +35,37 @@ body {
 .header-title {
   font-size: 46px;
   color: $colorDark;
+}
+
+.block-settings {
+  display: flex;
+  cursor: pointer;
+  gap: 30px;
+}
+
+#unmute {
+  fill: $colorDark;
+}
+
+#mute {
+  fill: $colorDark;
+}
+
+.block-volume{
+  display: flex;
+  align-items: center;
+}
+
+.unmute {
+  #mute {
+    display: none;
+  }
+}
+
+.mute {
+  #unmute {
+    display: none;
+  }
 }
 
 .block-theme {

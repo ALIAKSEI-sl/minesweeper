@@ -21,6 +21,18 @@ const clickSound = new Audio(audioClick);
 const failSound = new Audio(audioFail);
 const winSound = new Audio(audioWin);
 
+export function changeVolume(mess) {
+  if (mess === 'unmute') {
+    clickSound.muted = true;
+    failSound.muted = true;
+    winSound.muted = true;
+  } else {
+    clickSound.muted = false;
+    failSound.muted = false;
+    winSound.muted = false;
+  }
+}
+
 function countBombsAround(row, col) {
   let count = 0;
   for (let i = row - 1; i <= row + 1; i++) {
@@ -272,7 +284,6 @@ export function recoveryParams(params, elem) {
   elem.counterTime.textContent = params.settings.time;
   elem.counterClick.textContent = params.settings.click;
   elem.counterTag.textContent = params.settings.flag;
-  console.log(settings.bomb);
   elem.counterMine.textContent = settings.bomb - settings.flag;
 
   elem.blockLevelSelection.value = params.selectLevel;

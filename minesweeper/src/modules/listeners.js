@@ -17,6 +17,7 @@ import {
   tagCell,
   recoveryResults,
   savedResults,
+  changeVolume,
 } from './game';
 import {
   createGameBoard,
@@ -73,17 +74,30 @@ blockMinesSelection.addEventListener('change', (event) => {
 });
 
 const switchTheme = blockChangeTheme.querySelector('#change-theme');
-document.documentElement.style.setProperty('--colorLight', 'white');
+const switchVolume = blockChangeTheme.querySelector('.block-volume');
+document.documentElement.style.setProperty('--colorLight', 'rgb(242, 245, 238)');
 document.documentElement.style.setProperty('--colorDark', 'rgb(94, 91, 91)');
 
 switchTheme.addEventListener('change', () => {
   const st = document.documentElement.style;
-  if (st.getPropertyValue('--colorLight') === 'white') {
+  if (st.getPropertyValue('--colorLight') === 'rgb(242, 245, 238)') {
     st.setProperty('--colorLight', 'rgb(94, 91, 91)');
-    st.setProperty('--colorDark', 'white');
+    st.setProperty('--colorDark', 'rgb(242, 245, 238)');
   } else {
-    st.setProperty('--colorLight', 'white');
+    st.setProperty('--colorLight', 'rgb(242, 245, 238)');
     st.setProperty('--colorDark', 'rgb(94, 91, 91)');
+  }
+});
+
+switchVolume.addEventListener('click', (event) => {
+  if (event.currentTarget.classList.contains('unmute')) {
+    event.currentTarget.classList.remove('unmute');
+    event.currentTarget.classList.add('mute');
+    changeVolume('unmute');
+  } else {
+    event.currentTarget.classList.remove('mute');
+    event.currentTarget.classList.add('unmute');
+    changeVolume('mute');
   }
 });
 
