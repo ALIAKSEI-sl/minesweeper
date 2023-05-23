@@ -51,7 +51,7 @@ body {
   fill: $colorDark;
 }
 
-.block-volume{
+.block-volume {
   display: flex;
   align-items: center;
 }
@@ -120,7 +120,7 @@ body {
 
 .select-level {
   display: flex;
-  gap: 10px;
+  gap: 20px;
 }
 
 .levelSelection {
@@ -347,6 +347,13 @@ body {
   text-align: center;
   color: $colorDark;
   border: 1px solid $colorDark;
+}
+
+.block-mines {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 26px;
 }
 
 .hard {

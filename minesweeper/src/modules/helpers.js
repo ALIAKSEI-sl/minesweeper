@@ -54,21 +54,3 @@ export function startTimer(settings, elem) {
   settings.time += 1;
   elem.textContent = settings.time.toString().padStart(3, '0');
 }
-
-export function changeCountMines(message, select, settings) {
-  const options = Array.from(select.children);
-  let value;
-
-  if (message === 'easy') {
-    value = [10, 20, 30, 40];
-  } else if (message === 'medium') {
-    value = [40, 50, 60, 70];
-  } else if (message === 'hard') {
-    value = [70, 80, 90, 100];
-  }
-  options.forEach((option, index) => {
-    option.value = value[index];
-    option.textContent = `${value[index]}💣`;
-  });
-  settings.bomb = select.value;
-}

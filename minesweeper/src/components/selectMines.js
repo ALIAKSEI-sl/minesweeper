@@ -1,8 +1,6 @@
 export default `
-  <select class='minesSelection'>
-    <option value='10'>10💣</option>
-    <option value='20'>20💣</option>
-    <option value='30'>30💣</option>
-    <option value='40'>40💣</option>
-  </select>
+  <div class='block-mines'>
+    <p>💣</p>
+    <input type="number" min="10" max="99" value="10" class='minesSelection'>
+  </div>
 `;

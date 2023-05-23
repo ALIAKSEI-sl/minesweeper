@@ -6,7 +6,7 @@ import {
   blockGame,
   wrapperMain,
 } from './createMarkup';
-import { createGameBoard, changeCountMines } from './helpers';
+import { createGameBoard } from './helpers';
 import audioClick from '../assets/click.mp3';
 import audioFail from '../assets/fail.mp3';
 import audioWin from '../assets/win.mp3';
@@ -51,34 +51,62 @@ function countBombsAround(row, col) {
   return count;
 }
 
-export function placeMines(rowCell, columnCell) {
+export function placeMines(rowCell, columnCell, level) {
   board = new Array(settings.count);
   for (let i = 0; i < settings.count; i++) {
     board[i] = new Array(settings.count);
   }
 
-  for (let i = 0; i < settings.count; i++) {
-    board[i] = [];
-    for (let j = 0; j < settings.count; j++) {
-      board[i][j] = {
-        bomb: false,
-        opened: false,
-        bombsAround: 0,
-        flag: false,
-      };
+  if (level === 'easy' && settings.bomb > 60) {
+    for (let i = 0; i < settings.count; i++) {
+      board[i] = [];
+      for (let j = 0; j < settings.count; j++) {
+        board[i][j] = {
+          bomb: true,
+          opened: false,
+          bombsAround: null,
+          flag: false,
+        };
+      }
+    }
+
+    let emptyPlaced = 0;
+    board[+rowCell][+columnCell].bomb = false;
+    emptyPlaced += 1;
+    while (emptyPlaced < 100 - settings.bomb) {
+      const row = Math.floor(Math.random() * settings.count);
+      const col = Math.floor(Math.random() * settings.count);
+      if (board[row][col].bomb && row !== +rowCell && col !== +columnCell) {
+        board[row][col].bomb = false;
+        board[row][col].bombsAround = 0;
+        emptyPlaced += 1;
+      }
+    }
+  } else {
+    for (let i = 0; i < settings.count; i++) {
+      board[i] = [];
+      for (let j = 0; j < settings.count; j++) {
+        board[i][j] = {
+          bomb: false,
+          opened: false,
+          bombsAround: 0,
+          flag: false,
+        };
+      }
+    }
+
+    let minesPlaced = 0;
+    while (minesPlaced < settings.bomb) {
+      const row = Math.floor(Math.random() * settings.count);
+      const col = Math.floor(Math.random() * settings.count);
+      if (!board[row][col].bomb && row !== +rowCell && col !== +columnCell) {
+        board[row][col].bomb = true;
+        board[row][col].bombsAround = null;
+        minesPlaced += 1;
+      }
     }
   }
 
-  let minesPlaced = 0;
-  while (minesPlaced < settings.bomb) {
-    const row = Math.floor(Math.random() * settings.count);
-    const col = Math.floor(Math.random() * settings.count);
-    if (!board[row][col].bomb && row !== +rowCell && col !== +columnCell) {
-      board[row][col].bomb = true;
-      board[row][col].bombsAround = null;
-      minesPlaced += 1;
-    }
-  }
   for (let i = 0; i < settings.count; i++) {
     for (let j = 0; j < settings.count; j++) {
       if (!board[i][j].bomb) {
@@ -155,8 +183,10 @@ function changeColor(elem) {
     elem.style.color = 'purple';
   } else if (elem.textContent === '5') {
     elem.style.color = 'brown';
-  } else {
+  } else if (elem.textContent === '6') {
     elem.style.color = 'grey';
+  } else {
+    elem.style.color = 'black';
   }
 }
 
@@ -287,8 +317,7 @@ export function recoveryParams(params, elem) {
   elem.counterMine.textContent = settings.bomb - settings.flag;
 
   elem.blockLevelSelection.value = params.selectLevel;
-  changeCountMines(params.selectLevel, elem.blockMinesSelection, settings);
-  elem.blockMinesSelection.value = params.selectMines;
+  elem.minesSelection.value = params.selectMines;
 
   if (params.selectLevel === 'hard') {
     wrapperMain.classList.add('hard');

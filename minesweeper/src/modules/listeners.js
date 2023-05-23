@@ -19,12 +19,7 @@ import {
   savedResults,
   changeVolume,
 } from './game';
-import {
-  createGameBoard,
-  resetSettings,
-  startTimer,
-  changeCountMines,
-} from './helpers';
+import { createGameBoard, resetSettings, startTimer } from './helpers';
 import { settings } from './const';
 
 let clear;
@@ -37,6 +32,8 @@ const counterMine = blockControls.querySelector('.counter-mine');
 
 const tryAgainBtn = blockPopup.querySelector('.tryAgain-btn');
 
+const minesSelection = blockMinesSelection.querySelector('.minesSelection');
+
 startBtn.addEventListener('click', () => {
   clearInterval(clear);
   createGameBoard(settings.count, blockBoard);
@@ -48,15 +45,12 @@ blockLevelSelection.addEventListener('change', (event) => {
   if (level === 'easy') {
     settings.count = 10;
     wrapperMain.classList.remove('hard');
-    changeCountMines('easy', blockMinesSelection, settings);
   } else if (level === 'medium') {
     settings.count = 15;
     wrapperMain.classList.remove('hard');
-    changeCountMines('medium', blockMinesSelection, settings);
   } else if (level === 'hard') {
     settings.count = 25;
     wrapperMain.classList.add('hard');
-    changeCountMines('hard', blockMinesSelection, settings);
   }
   clearInterval(clear);
   createGameBoard(settings.count, blockBoard);
@@ -64,8 +58,12 @@ blockLevelSelection.addEventListener('change', (event) => {
   counterMine.textContent = settings.bomb;
 });
 
-blockMinesSelection.addEventListener('change', (event) => {
-  const count = event.target.value;
+minesSelection.addEventListener('change', (event) => {
+  let count = event.target.value;
+  if (+count < 1 || +count > 99) {
+    event.target.value = '10';
+    count = event.target.value;
+  }
   settings.bomb = +count;
   clearInterval(clear);
   createGameBoard(settings.count, blockBoard);
@@ -75,7 +73,10 @@ blockMinesSelection.addEventListener('change', (event) => {
 
 const switchTheme = blockChangeTheme.querySelector('#change-theme');
 const switchVolume = blockChangeTheme.querySelector('.block-volume');
-document.documentElement.style.setProperty('--colorLight', 'rgb(242, 245, 238)');
+document.documentElement.style.setProperty(
+  '--colorLight',
+  'rgb(242, 245, 238)',
+);
 document.documentElement.style.setProperty('--colorDark', 'rgb(94, 91, 91)');
 
 switchTheme.addEventListener('change', () => {
@@ -126,7 +127,7 @@ blockBoard.addEventListener('click', (event) => {
     }
 
     if (settings.click === 0) {
-      placeMines(rowCell, column);
+      placeMines(rowCell, column, blockLevelSelection.value);
     }
 
     if (!cell.classList.contains('flag') && !cell.classList.contains('open')) {
@@ -146,7 +147,7 @@ tryAgainBtn.addEventListener('click', () => {
 
 window.addEventListener('beforeunload', () => {
   if (settings.click !== 0 || settings.flag !== 0) {
-    savedGame(blockLevelSelection, blockMinesSelection);
+    savedGame(blockLevelSelection, minesSelection);
   }
   savedResults();
 });
@@ -168,7 +169,7 @@ window.addEventListener('load', () => {
         counterMine,
         blockLevelSelection,
         blockBoard,
-        blockMinesSelection,
+        minesSelection,
       };
       recoveryParams(params, elem);
       startTimer(settings, counterTime);
