@@ -31,6 +31,7 @@ const counterTag = blockControls.querySelector('.counter-tag');
 const counterMine = blockControls.querySelector('.counter-mine');
 
 const tryAgainBtn = blockPopup.querySelector('.tryAgain-btn');
+const okBtn = blockPopup.querySelector('.ok-btn');
 
 const minesSelection = blockMinesSelection.querySelector('.minesSelection');
 
@@ -142,6 +143,11 @@ tryAgainBtn.addEventListener('click', () => {
   createGameBoard(settings.count, blockBoard);
   addResultToTable();
   resetSettings(settings, counterTime, counterClick, counterTag, counterMine);
+  startNewGame();
+});
+
+okBtn.addEventListener('click', () => {
+  addResultToTable();
   startNewGame();
 });
 

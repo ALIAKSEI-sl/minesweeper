@@ -10,6 +10,9 @@ import { createGameBoard } from './helpers';
 import audioClick from '../assets/click.mp3';
 import audioFail from '../assets/fail.mp3';
 import audioWin from '../assets/win.mp3';
+import audioFlagAdd from '../assets/flagAdd.mp3';
+import audioFlagRemove from '../assets/flagRemove.mp3';
+import audioBang from '../assets/bang.mp3';
 
 let board;
 const results = [];
@@ -20,16 +23,25 @@ const resultsStatus = blockTable.querySelectorAll('.results-status');
 const clickSound = new Audio(audioClick);
 const failSound = new Audio(audioFail);
 const winSound = new Audio(audioWin);
+const flagAddSound = new Audio(audioFlagAdd);
+const flagRemoveSound = new Audio(audioFlagRemove);
+const bangSound = new Audio(audioBang);
 
 export function changeVolume(mess) {
   if (mess === 'unmute') {
     clickSound.muted = true;
     failSound.muted = true;
     winSound.muted = true;
+    flagAddSound.muted = true;
+    flagRemoveSound.muted = true;
+    bangSound.muted = true;
   } else {
     clickSound.muted = false;
     failSound.muted = false;
     winSound.muted = false;
+    flagAddSound.muted = false;
+    flagRemoveSound.muted = false;
+    bangSound.muted = false;
   }
 }
 
@@ -137,6 +149,18 @@ export function startNewGame() {
   blockPopup.classList.remove('active');
 }
 
+function openMines() {
+  const cells = document.querySelectorAll('.cell');
+  cells.forEach((cell) => {
+    cell.style.pointerEvents = 'none';
+    const i = cell.dataset.row;
+    const j = cell.dataset.col;
+    if (board[i][j].bomb) {
+      cell.classList.add('bomb');
+    }
+  });
+}
+
 function checkGameStatus(clear) {
   const safeCells = settings.count * settings.count - settings.bomb;
   let currentCells = 0;
@@ -149,6 +173,7 @@ function checkGameStatus(clear) {
   }
 
   if (safeCells === currentCells) {
+    openMines();
     endGame(blockPopup, clear, 'Hooray! You found all mines');
   }
 }
@@ -160,10 +185,12 @@ export function tagCell(cell, set, tagElem, mineElem) {
     const colCell = Number(cell.dataset.col);
     cell.classList.toggle('flag');
     if (cell.classList.contains('flag')) {
+      flagAddSound.play();
       set.flag += 1;
       mineElem.textContent = set.bomb - set.flag;
       board[rowCell][colCell].flag = true;
     } else {
+      flagRemoveSound.play();
       set.flag -= 1;
       mineElem.textContent = set.bomb - set.flag;
       board[rowCell][colCell].flag = false;
@@ -258,10 +285,15 @@ function openEmptyCell(row, col, counterMine) {
 }
 
 export function openCell(cell, rowCell, columnCell, counterMine, clear) {
-  clickSound.play();
   if (board[rowCell][columnCell].bomb) {
-    endGame(blockPopup, clear, 'Game over');
+    cell.classList.add('bang');
+    bangSound.play();
+    openMines();
+    setTimeout(() => {
+      endGame(blockPopup, clear, 'Game over');
+    }, 500);
   } else {
+    clickSound.play();
     cell.classList.add('open');
     board[rowCell][columnCell].opened = true;
     if (board[rowCell][columnCell].bombsAround !== 0) {

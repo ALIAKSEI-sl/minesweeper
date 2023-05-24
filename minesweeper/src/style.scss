@@ -255,6 +255,17 @@ body {
   cursor: auto;
 }
 
+.cell.bang {
+  border: 2px solid #ff0000;
+}
+
+.cell.bomb {
+  background-image: url(./assets/mine.svg);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
 .popup-wrapper {
   visibility: hidden;
   position: fixed;
@@ -298,7 +309,12 @@ body {
   font-weight: 600;
 }
 
-.tryAgain-btn {
+.block--btn {
+  display: flex;
+}
+
+.tryAgain-btn,
+.ok-btn {
   width: 100px;
   height: 36px;
   line-height: 27px;
@@ -311,7 +327,8 @@ body {
   cursor: pointer;
 }
 
-.tryAgain-btn:hover {
+.tryAgain-btn:hover,
+.ok-btn:hover {
   background-color: rgb(200, 200, 200);
 }
 

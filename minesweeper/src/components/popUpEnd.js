@@ -6,7 +6,10 @@ export default `
         <p>Number of seconds: <span class='seconds-results'></span></p>
         <p>Number of clicks: <span class='clicks-results'></span></p>
       </div>
-      <div class='tryAgain-btn'>try again</div>
+      <div class='block--btn'>
+        <div class='tryAgain-btn'>try again</div>
+        <div class='ok-btn'>ok</div>
+      </div>
     </div>
   </div>
 `;
