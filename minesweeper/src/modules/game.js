@@ -180,6 +180,7 @@ function checkGameStatus(clear) {
 
 export function tagCell(cell, set, tagElem, mineElem) {
   const currentFlag = +tagElem.textContent;
+
   if (!cell.classList.contains('open') && currentFlag < set.bomb) {
     const rowCell = Number(cell.dataset.row);
     const colCell = Number(cell.dataset.col);
@@ -190,6 +191,17 @@ export function tagCell(cell, set, tagElem, mineElem) {
       mineElem.textContent = set.bomb - set.flag;
       board[rowCell][colCell].flag = true;
     } else {
+      flagRemoveSound.play();
+      set.flag -= 1;
+      mineElem.textContent = set.bomb - set.flag;
+      board[rowCell][colCell].flag = false;
+    }
+    tagElem.textContent = set.flag;
+  } else if (!cell.classList.contains('open') && currentFlag === set.bomb) {
+    if (cell.classList.contains('flag')) {
+      const rowCell = Number(cell.dataset.row);
+      const colCell = Number(cell.dataset.col);
+      cell.classList.remove('flag');
       flagRemoveSound.play();
       set.flag -= 1;
       mineElem.textContent = set.bomb - set.flag;
